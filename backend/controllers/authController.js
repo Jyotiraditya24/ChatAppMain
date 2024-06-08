@@ -74,7 +74,7 @@ export const login = async (req, resp) => {
     });
   } catch (error) {
     console.log("Error in sign Up controller" + error.message);
-    return resp.status(500).json("Internal server error");
+    return resp.status(500).json("Internal server error")
   }
 };
 export const logout = (req, resp) => {
