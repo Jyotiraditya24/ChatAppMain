@@ -1,18 +1,20 @@
 import express from "express";
 import dotenv from "dotenv";
+import authRoutes from "./routes/authRoutes.js";
+import connectToDB from "./db/connection.js";
+import cookieParser from "cookie-parser";
 
-
-const app  = express();
-dotenv.config();
-
+const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.get('/',(req,resp)=>{
-    resp.json({a: "Hello Disha"});
-})
+dotenv.config();
+app.use(cookieParser());
+app.use(express.json()); // to parse incoming requests with json payload
 
-app.use("/api/auth",authRoutes);
+// ROUTES
+app.use("/api/auth", authRoutes);
 
-app.listen(PORT,()=> console.log(`Server running on port ${PORT}`));
-
-
+app.listen(PORT, () => {
+  connectToDB();
+  console.log(`Server running on port ${PORT}`);
+});
