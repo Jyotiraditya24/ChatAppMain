@@ -23,7 +23,7 @@ export const signup = async (req, resp) => {
 
     // Profile pic
     const profilePic = `https://avatar.iran.liara.run/public/${
-      gender == "female" ? "girl" : "boy"
+      gender === "female" ? "girl" : "boy"
     }?username=${userName}`;
 
     const newUser = new User({
@@ -53,8 +53,29 @@ export const signup = async (req, resp) => {
   }
 };
 
-export const login = (req, resp) => {
+export const login = async (req, resp) => {
   const { userName, password } = req.body;
+  try {
+    const user = await User.findOne({ userName });
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      user?.password || ""
+    );
+    if (!user || !isPasswordCorrect) {
+      return resp.status(400).json({ error: "Invalid username or password" });
+    }
+    generateTokenAndSetCookie(user._id, resp);
+
+    resp.status(200).json({
+      _id: user._id,
+      fullName: user.fullName,
+      userName: user.userName,
+      profilePic: user.profilePic,
+    });
+  } catch (error) {
+    console.log("Error in sign Up controller" + error.message);
+    return resp.status(500).json("Internal server error");
+  }
 };
 export const logout = (req, resp) => {
   resp.status(200).json({ status: "ok" });
