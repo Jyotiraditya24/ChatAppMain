@@ -13,7 +13,7 @@ const messageSchema = new mongoose.Schema(
       required: true,
     },
     message: {
-      typeo: String,
+      type: String,
     },
     // updatedAt and createdAt field is added
   },
