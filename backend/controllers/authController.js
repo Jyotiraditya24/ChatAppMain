@@ -49,7 +49,7 @@ export const signup = async (req, resp) => {
     }
   } catch (error) {
     console.log("Error in sign Up controller" + error.message);
-    return resp.status(500).json("Internal server error");
+    return resp.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -73,10 +73,16 @@ export const login = async (req, resp) => {
       profilePic: user.profilePic,
     });
   } catch (error) {
-    console.log("Error in sign Up controller" + error.message);
-    return resp.status(500).json("Internal server error")
+    console.log("Error in login controller" + error.message);
+    return resp.status(500).json({ error: "Internal server error" });
   }
 };
 export const logout = (req, resp) => {
-  resp.status(200).json({ status: "ok" });
+  try {
+    resp.cookie("jwt", "", { maxAge: 0 });
+    resp.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.log("Error in logout controller" + error.message);
+    return resp.status(500).json({ error: "Internal server error" });
+  }
 };
