@@ -29,11 +29,14 @@ export const sendMessage = async (req, resp) => {
     });
 
     // Save the new message to the database
-    await newMessage.save();
+    // await newMessage.save();
 
     // Add the message ID to the conversation and save the conversation
     conversation.messages.push(newMessage._id);
-    await conversation.save();
+    // await conversation.save();
+
+    // we can also do very fast
+    Promise.all([newMessage.save(),conversation.save()])
 
     resp.status(201).json({
       message: "Message sent successfully",
