@@ -1,6 +1,11 @@
 import express from "express";
-import {} from "../controllers/messageController.js";
+import { sendMessage } from "../controllers/messageController.js";
+import protectRoute from "../middleware/protectRoute.js";
 
 const router = express.Router();
 
-router.post(`/send/:id`, sendMessage);
+// id is params
+// ? is called query
+router.post(`/send/:id`, protectRoute, sendMessage);
+
+export default router;

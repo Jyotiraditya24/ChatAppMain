@@ -5,10 +5,11 @@ import messageRoutes from "./routes/messageRoutes.js";
 import connectToDB from "./db/connection.js";
 import cookieParser from "cookie-parser";
 
+dotenv.config();
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-dotenv.config();
 app.use(cookieParser());
 app.use(express.json()); // to parse incoming requests with json payload
 
