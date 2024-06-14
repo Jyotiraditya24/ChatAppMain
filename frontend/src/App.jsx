@@ -1,13 +1,13 @@
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/Signup";
-import { Route,Routes, } from "react-router-dom";
+import Home from "./pages/home/Home";
 
-function App() {
+const App = () => {
   return (
     <div className="h-screen flex items-center justify-center p-4">
-      <SignUp />
+      <Home></Home>
     </div>
   );
-}
+};
 
 export default App;
