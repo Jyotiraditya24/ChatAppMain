@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import GenderCheckBox from "../../components/GenderCheckBox";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
+  const [inputs, setInputs] = useState({
+    fullName: "",
+    userName: "",
+    password: "",
+    confirmPassword: "",
+    gender: "",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(inputs);
+  };
+  const handleChange = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
       <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-border backdrop-filter backdrop-blur-lg bg-opacity-0">
@@ -9,9 +26,12 @@ const SignUp = () => {
         <h1 className="text-2xl font-semibold text-center text-gray-300">
           Sign Up <span className="text-blue-500">ChatApp</span>
         </h1>
-        {/* FORM  */}
+
         {/* FORM */}
-        <form className="flex flex-col justify-center align-center gap-4 mt-10">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col justify-center align-center gap-4 mt-10"
+        >
           {/* FULLNAME */}
           <label className="input input-bordered flex items-center gap-2">
             <svg
@@ -22,7 +42,14 @@ const SignUp = () => {
             >
               <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
             </svg>
-            <input type="text" className="grow" placeholder="Full Name" />
+            <input
+              type="text"
+              name="fullName"
+              className="grow"
+              placeholder="Full Name"
+              value={inputs.fullName}
+              onChange={handleChange}
+            />
           </label>
           {/* USERNAME */}
           <label className="input input-bordered flex items-center gap-2">
@@ -34,7 +61,14 @@ const SignUp = () => {
             >
               <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
             </svg>
-            <input type="text" className="grow" placeholder="Username" />
+            <input
+              type="text"
+              name="userName"
+              className="grow"
+              placeholder="Username"
+              value={inputs.userName}
+              onChange={handleChange}
+            />
           </label>
           {/* PASSWORD */}
           <label className="input input-bordered flex items-center gap-2">
@@ -50,7 +84,14 @@ const SignUp = () => {
                 clipRule="evenodd"
               />
             </svg>
-            <input type="password" className="grow" placeholder="Password" />
+            <input
+              type="password"
+              name="password"
+              className="grow"
+              placeholder="Password"
+              value={inputs.password}
+              onChange={handleChange}
+            />
           </label>
           {/* CONFIRM PASSWORD */}
           <label className="input input-bordered flex items-center gap-2">
@@ -68,26 +109,29 @@ const SignUp = () => {
             </svg>
             <input
               type="password"
+              name="confirmPassword"
               className="grow"
               placeholder="Confirm Password"
+              value={inputs.confirmPassword}
+              onChange={handleChange}
             />
           </label>
-          {/* Gender  */}
-          <GenderCheckBox />
+          {/* Gender */}
+          <GenderCheckBox inputs={inputs} handleChange={handleChange} />
           {/* Button */}
           <div>
             <button className="btn btn-block btn-sm mt-2 hover:cursor-pointer">
-              Login
+              Sign Up
             </button>
           </div>
         </form>
         <div className="my-2">
-          <a
-            href="/login"
+          <Link
+            to="/login"
             className="text-sm hover:underline hover:text-blue-600 mt-2 inline-block hover:cursor-pointer "
           >
-            Login into an account ?
-          </a>
+            Login into an account?
+          </Link>
         </div>
       </div>
     </div>
