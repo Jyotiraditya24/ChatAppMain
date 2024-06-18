@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import authRoutes from "./routes/authRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
@@ -13,6 +14,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json()); // to parse incoming requests with json payload
 
@@ -25,3 +27,5 @@ app.listen(PORT, () => {
   connectToDB();
   console.log(`Server running on port ${PORT}`);
 });
+
+console.log(process.env.PORT);

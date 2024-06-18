@@ -1,0 +1,19 @@
+import { useState, createContext, useContext } from "react";
+
+export const AuthContext = createContext();
+
+// to consune the context
+export const useAuthContext = () => {
+  return useContext(AuthContext);
+};
+
+export const AuthContextProvider = ({ children }) => {
+  const [authUser, setAuthUser] = useState(
+    JSON.parse(localStorage.getItem("chat-user") || null)
+  );
+  return (
+    <AuthContext.Provider value={{ authUser, setAuthUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
