@@ -128,8 +128,15 @@ const SignUp = () => {
           <GenderCheckBox inputs={inputs} handleChange={handleChange} />
           {/* Button */}
           <div>
-            <button className="btn btn-block btn-sm mt-2 hover:cursor-pointer">
-              Sign Up
+            <button
+              className="btn btn-block btn-sm mt-2 hover:cursor-pointer"
+              disabled={loading}
+            >
+              {loading ? (
+                <span className="loading laoding-spinner"></span>
+              ) : (
+                "Sign up"
+              )}
             </button>
           </div>
         </form>
