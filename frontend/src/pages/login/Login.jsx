@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
+  const [loginInputs, setLoginInputs] = useState({
+    userName: "",
+    password: "",
+  });
+  const { loading, login } = useLogin();
+
+  const handleChange = (e) => {
+    setLoginInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(loginInputs);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
       <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
@@ -10,7 +26,10 @@ const Login = () => {
           Login <span className="text-blue-500">ChatApp</span>
         </h1>
         {/* FORM */}
-        <form className="flex flex-col justify-center align-center gap-4 mt-10">
+        <form
+          className="flex flex-col justify-center align-center gap-4 mt-10"
+          onSubmit={handleSubmit} 
+        >
           {/* USERNAME */}
           <label className="input input-bordered flex items-center gap-2">
             <svg
@@ -21,7 +40,14 @@ const Login = () => {
             >
               <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
             </svg>
-            <input type="text" className="grow" placeholder="Username" />
+            <input
+              type="text"
+              className="grow"
+              placeholder="Username"
+              name="userName"
+              value={loginInputs.userName}
+              onChange={handleChange} // Changed: Corrected onChange handler
+            />
           </label>
           {/* PASSWORD */}
           <label className="input input-bordered flex items-center gap-2">
@@ -37,25 +63,33 @@ const Login = () => {
                 clipRule="evenodd"
               />
             </svg>
-            <input type="password" className="grow" placeholder="Password" />
+            <input
+              type="password"
+              className="grow"
+              placeholder="Password"
+              name="password"
+              value={loginInputs.password}
+              onChange={handleChange} // Changed: Corrected onChange handler
+            />
           </label>
+          {/* Button */}
+          <div>
+            <button
+              className="btn btn-block btn-sm mt-2 hover:cursor-pointer"
+              disabled={loading} // Changed: Added disabled state to button
+            >
+              {loading ? "Logging in..." : "Login"} 
+            </button>
+          </div>
         </form>
         {/* Links */}
-
         <div className="my-2">
           <Link
             to="/signup"
-            className="text-sm hover:underline hover:text-blue-600 mt-2 inline-block hover:cursor-pointer "
+            className="text-sm hover:underline hover:text-blue-600 mt-2 inline-block hover:cursor-pointer"
           >
-            Create an account ?
+            Create an account?
           </Link>
-        </div>
-
-        {/* Button */}
-        <div>
-          <button className="btn btn-block btn-sm mt-2 hover:cursor-pointer">
-            Login
-          </button>
         </div>
       </div>
     </div>
