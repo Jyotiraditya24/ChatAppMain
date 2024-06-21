@@ -16,7 +16,7 @@ const Conversations = () => {
         if (data.error) {
           throw new Error(data.error);
         }
-        setConversations((prev) => [...prev, ...data]);
+        setConversations(data);
       } catch (error) {
         toast.error(error.message);
       } finally {
@@ -26,7 +26,7 @@ const Conversations = () => {
 
     getConversations();
   }, []); // Empty dependency array, runs once on mount
-
+  console.log(conversations);
   return (
     <div className="py-2 flex flex-col overflow-auto">
       {conversations.map((conversation) => (
