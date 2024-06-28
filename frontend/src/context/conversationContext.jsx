@@ -9,8 +9,8 @@ export const ConversationContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
 
   // Example function to update selectConversation
-  const updateSelectConversation = (conversationId) => {
-    setSelectConversation(conversationId);
+  const updateSelectConversation = (conversation) => {
+    setSelectConversation(conversation);
   };
 
   // Example function to add a new message

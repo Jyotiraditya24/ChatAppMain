@@ -52,15 +52,22 @@ export const getMessage = async (req, resp) => {
   const { id: receiverId } = req.params;
   const senderId = req.user._id;
   try {
-    //   FIND THE CONVERSATION BETWEEN THESE TWO USERS
+    // FIND THE CONVERSATION BETWEEN THESE TWO USERS
     const conversation = await Conversation.findOne({
       participants: { $all: [receiverId, senderId] },
-    }).populate("messages");
-    // The populate methods fills the objectID with the object itself
+    }).populate({
+      path: "messages",
+      populate: {
+        path: "senderId receiverId",
+        select: "fullName userName profilePic", // Add any fields you need from User schema
+      },
+    });
+
     if (!conversation) {
       return resp.status(404).json({ error: "Conversation not found" });
     }
-    resp.status(200).json(conversation.messages);
+
+    resp.status(200).json({ messages: conversation.messages });
   } catch (error) {
     console.error("Error in getMessage Controller :", error);
     resp.status(500).json({ error: "Internal Server Error" });
