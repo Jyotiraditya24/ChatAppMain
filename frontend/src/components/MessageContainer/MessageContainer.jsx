@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Messages from "./Messages";
 import MessageInput from "./MessageInput";
 import { TiMessages } from "react-icons/ti";
-import { useConversationContext } from "../../context/conversationContext";
+import useConversation from "../../zustand/useConversation";
 
 const NoChatSelected = () => {
   return (
@@ -17,22 +17,21 @@ const NoChatSelected = () => {
 };
 
 const MessageContainer = () => {
-  const { selectConversation, updateSelectConversation } =
-    useConversationContext();
+  const { selectedConversation, setSelectedConversation } = useConversation();
   useEffect(() => {
     // clean up function when it unmounts
-    return () => updateSelectConversation(null);
+    return () => setSelectedConversation(null);
   }, []);
 
   return (
     <div className="md:min-w-[450px] flex flex-col">
-      {selectConversation ? ( 
+      {selectedConversation ? (
         <>
           {/* Header */}
           <header className="flex items-center bg-slate-500 px-4 py-2 mb-2">
             <span className="label-text px-2">To:</span>
             <span className="text-gray-900 font-bold">
-              {selectConversation.fullName}
+              {selectedConversation.fullName}
             </span>
           </header>
           <Messages />

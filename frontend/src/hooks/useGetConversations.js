@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useConversationContext } from "../context/conversationContext";
 
 const useGetConversations = () => {
   const [loading, setLoading] = useState(false);
   const [conversations, setConversations] = useState([]);
-  const { addMessage } = useConversationContext();
 
   useEffect(() => {
     const getConversations = async () => {
@@ -16,7 +14,6 @@ const useGetConversations = () => {
 
         if (response.ok) {
           setConversations(data); // Assuming data is an array of conversations
-          addMessage(data);
         } else {
           throw new Error(data.error || "Failed to fetch conversations");
         }
@@ -28,7 +25,7 @@ const useGetConversations = () => {
     };
 
     getConversations();
-  }, [conversations?.length]); // Empty dependency array means this effect runs only once on mount
+  }, []); // Empty dependency array means this effect runs only once on mount
 
   return { loading, conversations };
 };

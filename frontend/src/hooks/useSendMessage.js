@@ -3,15 +3,14 @@ import { useConversationContext } from "../context/conversationContext";
 import toast from "react-hot-toast";
 
 const useSendMessage = () => {
-  const [loading, setLoading] = useState(false); // Initialize loading state with false
-  const {
-    selectConversation,
-    updateSelectConversation,
-    addMessage,
-    clearMessages,
-  } = useConversationContext();
+  const [loading, setLoading] = useState(false);
+  const { selectConversation, addMessage } = useConversationContext();
 
   const sendMessage = async (message) => {
+    if (!selectConversation?._id) {
+      toast.error("No conversation selected");
+      return;
+    }
     setLoading(true);
     try {
       const response = await fetch(
@@ -29,13 +28,14 @@ const useSendMessage = () => {
       if (data.error) {
         throw new Error(data.error);
       }
-      addMessage(data.payloadBACKEND.message);
+      addMessage(data.payloadBACKEND);
     } catch (error) {
       toast.error(error.message);
     } finally {
       setLoading(false);
     }
   };
+
   return { loading, sendMessage };
 };
 
