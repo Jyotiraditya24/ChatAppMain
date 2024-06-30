@@ -1,5 +1,6 @@
 import Conversation from "../models/conversationModel.js";
 import Message from "../models/messageModel.js";
+import { getReceieverSocketId, io } from "../socket/socket.js";
 
 // In sendMessage controller:
 export const sendMessage = async (req, res) => {
@@ -31,6 +32,14 @@ export const sendMessage = async (req, res) => {
     conversation.messages.push(newMessage._id);
     await conversation.save();
 
+    // save and then send the message
+    // getting socket ID from reciever id
+    const receiverSocketId = getReceieverSocketId(receiverId);
+    if (receiverId) {
+      // Only sending to the reciever id
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+
     res.status(201).json({
       message: "Message sent successfully",
       payloadBACKEND: newMessage.toObject(),
@@ -40,7 +49,6 @@ export const sendMessage = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
 
 // In getMessage controller:
 export const getMessage = async (req, res) => {

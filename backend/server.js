@@ -8,10 +8,11 @@ import messageRoutes from "./routes/messageRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
 import connectToDB from "./db/connection.js";
+import { app, server } from "./socket/socket.js";
 
 dotenv.config();
 
-const app = express();
+
 const PORT = process.env.PORT || 8080;
 
 app.use(
@@ -28,7 +29,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   connectToDB();
   console.log(`Server running on port ${PORT}`);
 });

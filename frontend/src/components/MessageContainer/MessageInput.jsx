@@ -9,10 +9,10 @@ const MessageInput = () => {
   const { selectedConversation, setMessages, messages } = useConversation();
 
   const sendMessage = async (messageText) => {
-    if (!selectedConversation?._id) {
-      toast.error("No conversation selected");
-      return;
-    }
+    // if (!selectedConversation?._id) {
+    //   toast.error("No conversation selected");
+    //   return;
+    // }
     setLoading(true);
     try {
       const response = await fetch(
@@ -30,7 +30,7 @@ const MessageInput = () => {
       if (data.error) {
         throw new Error(data.error);
       }
-      setMessages((prevMessages) => [...prevMessages, data.payloadBACKEND]); // Update messages state correctly
+      setMessages([...messages, data.payloadBACKEND]); // Update messages state correctly
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -44,7 +44,6 @@ const MessageInput = () => {
     sendMessage(message);
     setMessage("");
   };
-
 
   return (
     <form className="px-4 my-3" onSubmit={handleSubmit}>

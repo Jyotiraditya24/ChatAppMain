@@ -3,9 +3,11 @@ import Message from "./Message";
 import useConversation from "../../zustand/useConversation";
 import toast from "react-hot-toast";
 import MessageSkeleton from "../MessageSkeletons";
+import useListenMessage from "../../hooks/useListenMessage";
 
 const Messages = () => {
   const [loading, setLoading] = useState(false);
+  useListenMessage(); 
   const { selectedConversation, messages, setMessages } = useConversation();
   const lastMessageRef = useRef(null);
 
@@ -26,7 +28,6 @@ const Messages = () => {
         setMessages(data.messages);
       } catch (error) {
         toast.error(error.message);
-        setMessages([]);
         console.error("Error fetching messages:", error);
       } finally {
         setLoading(false);
@@ -43,6 +44,8 @@ const Messages = () => {
       lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [loading, messages]);
+
+  console.log("MESSAGES HERE", messages )
 
   return (
     <div className="px-4 flex-1 overflow-auto">
