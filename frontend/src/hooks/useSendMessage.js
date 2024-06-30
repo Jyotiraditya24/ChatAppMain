@@ -14,7 +14,7 @@ const useSendMessage = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3001/api/messages/send/${selectConversation._id}`,
+        `${window.location.origin}/api/messages/send/${selectConversation._id}`,
         {
           method: "POST",
           headers: {

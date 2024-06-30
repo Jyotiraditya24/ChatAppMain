@@ -16,7 +16,7 @@ const Messages = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:3001/api/messages/get/${selectedConversation._id}`,
+          `${window.location.origin}/api/messages/get/${selectedConversation._id}`,
           {
             credentials: "include",
           }

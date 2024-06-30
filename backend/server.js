@@ -18,7 +18,7 @@ const __dirname = path.resolve();
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Replace with your client's origin
+    origin: "https://chatappmain-ndrm.onrender.com/", // Replace with your client's origin
     credentials: true, // Allow credentials
   })
 );
