@@ -2,6 +2,7 @@ import React from "react";
 import { useAuthContext } from "../../context/authContext";
 import MessageSkeleton from "../MessageSkeletons";
 import useConversation from "../../zustand/useConversation";
+import formatTime from "../../utils/formatTime";
 
 const Message = ({ message }) => {
   const { authUser } = useAuthContext();
@@ -12,6 +13,7 @@ const Message = ({ message }) => {
     ? authUser.profilePic
     : selectedConversation?.profilePic;
   const bubbleBgColor = fromMe ? "bg-blue-500" : "";
+  const fTime = formatTime(message.createdAt);
 
   return (
     <div className={`chat ${chatClassName}`}>
@@ -24,7 +26,7 @@ const Message = ({ message }) => {
         {message.message}
       </div>
       <div className="chat-footer opacity-50 text-xs flex gap-1 items-center">
-        {message.timestamp} {/* Replace with actual timestamp */}
+        {fTime}
       </div>
     </div>
   );
